@@ -1,16 +1,77 @@
-# React + Vite
+# 🎓 Student Management System (React)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A **Student Management System** built using **React.js** that allows users to **add, view, edit, and delete student records**.  
+The project uses **LocalStorage** for data persistence and includes **toast notifications**, **responsive tables**, and **clean UI with Tailwind CSS**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## React Compiler
+- ➕ Add new students
+- ✏️ Edit existing student details
+- 🗑️ Delete students with instant feedback
+- 📋 View all students in a responsive, scrollable table
+- 🔔 Toast notifications using **Toastify JS**
+- 💾 Data stored in **LocalStorage**
+- 📱 Fully responsive design
+- 🚫 Custom 404 (Not Found) page (without Navbar)
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+---
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **React.js**
+- **React Router DOM**
+- **Tailwind CSS**
+- **Toastify JS**
+- **LocalStorage**
+
+---
+
+## 📂 Project Structure
+
+Student_Management/
+│
+├── src/
+│ ├── components/
+│ │ ├── Navbar.jsx
+│ │ └── NotFound.jsx
+│ │
+│ ├── pages/
+│ │ ├── Home.jsx
+│ │ ├── AddStudent.jsx
+│ │ ├── DisplayStudent.jsx
+│ │ └── EditStudent.jsx
+│ │
+│ ├── utils/
+│ │ └── toast.js
+│ │
+│ ├── App.jsx
+│ └── main.jsx
+│
+├── public/
+├── package.json
+└── README.md
+
+
+
+---
+
+## 📦 Installation & Setup
+
+1️⃣ **Clone the repository**
+```bash
+git clone https://github.com/priyalodha41/Student_Management.git
+cd Student_Management
+npm install
+npm run dev
+
+🔔 Toast Notifications
+
+Toast notifications are implemented using Toastify JS and are triggered on:
+
+Student added successfully
+
+Student edited successfully
+
+Student deleted successfully

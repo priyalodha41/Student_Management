@@ -1,10 +1,14 @@
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const DisplayStudent = () => {
-
+  
+  const [searchText, setSearchText] = useState("");
+  const [filterCourse, setFilterCourse] = useState("all");
+  const [sortType, setSortType] = useState("");
+  
  const [students,Setstudents] =useState([]);
 
  useEffect(()=>{
@@ -31,6 +35,41 @@ const deleteStudent=((id)=>{
       close: true,
     }).showToast();
   };
+
+  let processedStudents = [...students];
+if (searchText !== "") {
+  processedStudents = processedStudents.filter((stu) =>
+    stu.name.toLowerCase().includes(searchText.toLowerCase()) ||
+    stu.email.toLowerCase().includes(searchText.toLowerCase())
+  );
+}
+
+if (filterCourse !== "all") {
+  processedStudents = processedStudents.filter(
+    (stu) => stu.course === filterCourse
+  );
+}
+if (sortType === "name-asc") {
+  processedStudents.sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+}
+else if (sortType === "name-desc") {
+  processedStudents.sort((a, b) =>
+    b.name.localeCompare(a.name)
+  );
+}
+else if (sortType === "date-asc") {
+  processedStudents.sort(
+    (a, b) => new Date(a.joiningDate) - new Date(b.joiningDate)
+  );
+}
+else if (sortType === "date-desc") {
+  processedStudents.sort(
+    (a, b) => new Date(b.joiningDate) - new Date(a.joiningDate)
+  );
+}
+
   return (
     
    <div className="bg-white dark:bg-gray-900 min-h-screen">
@@ -41,11 +80,54 @@ const deleteStudent=((id)=>{
                 dark:bg-blue-600 dark:hover:bg-blue-700
                  dark:focus:ring-blue-800">Add a New Student</Link>
             </div>
+
+          <div className="mt-8 mb-6 flex flex-col sm:flex-row gap-4">
+
+            <input
+              type="text"
+              placeholder="Search by name or email"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                        focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+                        dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+            />
+            <select
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                        focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+                        dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              value={filterCourse}
+              onChange={(e) => setFilterCourse(e.target.value)}
+            >
+              <option value="all">All Courses</option>
+                <option value="React">React</option>
+                <option value="Python">Python</option>
+                <option value="Data Science">Data Science</option>
+                <option value="Web Development">Web Development</option>
+            </select>
+            <select
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                        focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+                        dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              value={sortType}
+              onChange={(e) => setSortType(e.target.value)}
+            >
+              <option value="">No Sort</option>
+              <option value="name-asc">Name A–Z</option>
+              <option value="name-desc">Name Z–A</option>
+              <option value="date-asc">Joining Date ↑</option>
+              <option value="date-desc">Joining Date ↓</option>
+            </select>
+
+          </div>
+
             
             <div className="relative shadow-md sm:rounded-lg mt-10 
                 h-[70vh] 
                 overflow-x-auto overflow-y-auto scroll-smooth">
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            
+              {
+                  processedStudents.length>0 ? (<table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" className="px-6 py-3 whitespace-nowrap">
@@ -79,7 +161,7 @@ const deleteStudent=((id)=>{
                 <tbody>
 
                  {
-                    students.map((student,idx)=>{
+                    processedStudents.map((student,idx)=>{
                         return <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
                         key={student.id}>
                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -118,7 +200,11 @@ const deleteStudent=((id)=>{
                  }
                 
                 </tbody>
-            </table>
+            </table>) :
+                ( <div className="w-full h-[250px] rounded-md bg-gray-50 dark:bg-gray-600 dark:text-gray-300 flex justify-center items-center font-medium text-2xl">
+                    No employees found
+                </div>)
+              }
             </div>
 
         </div>
